@@ -18,14 +18,12 @@ Download from github.
     >>> from image_dl import *
     >>> url = "<image_url>"
     >>> name = "<file_name>"
-    >>> dest = "."
-    >>> download_image(url, name, dest)
-    
+    >>> download_image(url, name)
     - Downloading from:
     <image_url>
-    
+
     - In progress ...
-    
+
     - Saved to:
     .\<file_name>
 
@@ -37,12 +35,10 @@ Download from github.
     >>> name = "<file_name>"
     >>> dest = create_folder(<dir_name>)
     >>> download_image(url, name, dest)
-    
     - Downloading from:
+
     <image_url>
-    
     - In progress ...
-    
+
     - Saved to:
     <dir_name>\<file_name>
-    

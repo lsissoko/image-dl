@@ -1,4 +1,4 @@
-from image_dl import *
+import image_dl as IMGDL
 
 # Download a picture of Homer Simpson
-download_image("http://bit.ly/1DbCvWt", "homer.jpg", os.getcwd())
+IMGDL.download_image("http://bit.ly/1DbCvWt", "homer.jpg", os.getcwd())
