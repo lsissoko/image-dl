@@ -4,6 +4,7 @@ __author__ = 'Lamine Sissoko'
 import os
 import re
 import requests
+import urllib
 
 from BeautifulSoup import BeautifulSoup
 from PIL import Image
@@ -33,34 +34,34 @@ def get_links(url):
 def download_image(url, name, dest=".", number=1):
     print "  {0}) In: {1}".format(number, url)
     filepath = os.path.join(dest, name)
-    r = requests.get(url)
-    i = Image.open(StringIO(r.content))
-    i.save(filepath)
+    urllib.urlretrieve(url, filepath)
     print "  Out: {}\n".format(filepath)
 
 
 def imgbox(url, name, dest=".", ext=".jpg", delim="", digits=3, number=1):
-  name = name.lower()
-  links = get_links(url)
+  dest = create_folder(dest)
+
+  html = get_html(url).find('div', {"id":"gallery-view-content"})
+  links = [str(tag['src']) for tag in html.findAll('img', src=True)]
+
   print "Downloading images from [imgbox]...\n"
   for link in links:
     try:
+      image = re.search(r'\.com/(\w*\.\w*)', link).group(1)
+      image_url = "http://i.imgbox.com/{}".format(image)
       new_name = set_name(name, ext, delim, number, digits)
-      image_url = "http://i.imgbox.com{0}{1}".format(link, ext)
       download_image(image_url, new_name, dest, number)
       number += 1
-    except IOError:
+    except:
       pass
 
 
 def imagevenue(url, name, dest=".", ext=".jpg", delim="", digits=3, number=1):
-  name = name.lower()
+  dest = create_folder(dest)
 
-  links = get_links(url)
-  links = [link for link in links if re.search(r'imagevenue.com', link)]
+  links = [l for l in get_links(url) if re.search(r'imagevenue.com', link)]
   
   print "Downloading images from [imagevenue]...\n"
-
   for link in links:
     try:
       # Source image (i.e. "Open image in a new tab")
@@ -68,13 +69,28 @@ def imagevenue(url, name, dest=".", ext=".jpg", delim="", digits=3, number=1):
       src = [tag['src'] for tag in html.findAll('img', src=True) \
           if not str.startswith(str(tag['src']), 'http')]
       
-      # Base URL (i.e. http://imgXXX.imagevenue.com)
       base_url_match = re.search(r'.*imagevenue.com', link)
-      
       if base_url_match and len(src) > 0:
         new_name = set_name(name, ext, delim, number, digits)
         image_url = "{0}/{1}".format(base_url_match.group(0), str(src[0]))
         download_image(image_url, new_name, dest, number)
         number += 1
-    except IOError:
+    except:
+      pass
+
+
+def imgur(url, name, dest=".", ext=".jpg", delim="", digits=3, number=1):
+  dest = create_folder(dest)
+
+  html = get_html(url).findAll('meta', {'property':'og:image'})
+  links = [tag['content'] for tag in html][1:]
+
+  print "Downloading images from [imgur]...\n"
+  for image_url in links:
+    try:
+      ext = re.search(r'\.com/\w*(\.\w*)', image_url).group(1)
+      new_name = set_name(name, ext, delim, number, digits)
+      download_image(image_url, new_name, dest, number)
+      number += 1
+    except:
       pass

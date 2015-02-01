@@ -3,11 +3,11 @@ Python program for batch image downloading from various hosts (e.g. imagebam, im
 
 ### To Do
 * [x] Single image downloading from a given URL
-* [ ] Gallery downloads
+* [ ] Album/Gallery downloads
     * [ ] imagebam
     * [x] imagevenue
     * [x] imgbox
-    * [ ] imgur
+    * [x] imgur
     * [ ] someimage
 * [ ] More shit
 
@@ -24,7 +24,7 @@ Download from github.
 ```sh
 >>> pip install beautifulsoup4
 ```
-- PIL / Pillow
+- Pillow
 ```sh
 >>> pip install Pillow
 ```
@@ -44,15 +44,20 @@ Download from github.
 >>> download_image(url, name, dest) # download to chosen directory
 ```
 
-#### Download a gallery
+#### Download an album
 ```sh
 >>> from image_dl import *
 >>> name = "<file_name>"
 >>> dest = create_folder("<dir_name>")
 >>>
->>> url = "<imgbox_url>"
->>> imgbox(url, name, dest) # Download imgbox gallery
->>>
 >>> url = "<imagevenue_url>"
->>> imagevenue(url, name, dest) # Download imagevenue gallery
+>>> imagevenue(url, name, dest) # download imagevenue album
+>>> imagevenue(url, name, dest, delim=' - ') # change delimiter
+>>> imagevenue(url, name, dest, digits=6, number=39) # change image sequencing (start at 000039)
+>>>
+>>> url = "<imgbox_url>"
+>>> imgbox(url, name, dest) # download imgbox album
+>>>
+>>> url = "<imgur_url>"
+>>> imgur(url, name, dest) # download imgur album
 ```
