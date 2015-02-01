@@ -39,7 +39,7 @@ Download from github.
 >>> from image_dl import *
 >>> url = "<image_url>"
 >>> name = "<file_name>"
->>> dest = create_folder(<dir_name>)
+>>> dest = create_folder("<dir_name>")
 >>> download_image(url, name, dest)
 ```
 
@@ -48,6 +48,6 @@ Download from github.
 >>> from image_dl import *
 >>> url = "<image_url>"
 >>> name = "<file_name>"
->>> dest = create_folder(<dir_name>)
+>>> dest = create_folder("<dir_name>")
 >>> imgbox(url, name, dest)
 ```
