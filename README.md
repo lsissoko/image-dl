@@ -16,6 +16,10 @@ Python program for batch image downloading from various hosts (e.g. imagebam, im
 Download from github.
 
 ### Dependencies
+- Requests
+```sh
+>>> pip install requests
+```
 - BeautifulSoup
 ```sh
 >>> pip install beautifulsoup4
