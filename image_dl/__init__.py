@@ -82,12 +82,14 @@ def imagevenue(url, name, dest=".", ext=".jpg", delim="", digits=3, number=1):
 def imgur(url, name, dest=".", ext=".jpg", delim="", digits=3, number=1):
   dest = create_folder(dest)
 
-  html = get_html(url).findAll('meta', {'property':'og:image'})
-  links = [tag['content'] for tag in html][1:]
+  _class = "item view album-view-image-link"
+  image_divs = get_html(url).findAll('div', { "class" : _class })
+  links = [div.a.get('href') for div in image_divs]
 
   print "Downloading images from [imgur]...\n"
-  for image_url in links:
+  for link in links:
     try:
+      image_url = "http://" + link[2:]
       ext = re.search(r'\.com/\w*(\.\w*)', image_url).group(1)
       new_name = set_name(name, ext, delim, number, digits)
       download_image(image_url, new_name, dest, number)
