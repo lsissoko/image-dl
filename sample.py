@@ -1,4 +1,5 @@
 import image_dl as IMGDL
+import sys
 
 def test(host=""):
     host = host.lower()
@@ -11,8 +12,8 @@ def test(host=""):
         IMGDL.download_image("http://bit.ly/1DbCvWt", "homer.jpg", "images")
 
 if __name__ == "__main__":
-    test()
+    host = ""
+    if len(sys.argv) > 1:
+        host = sys.argv[1]
 
-    # test("imgbox")
-
-    # test("imgur")
+    test(host)
