@@ -5,10 +5,7 @@ import os
 import re
 import requests
 import urllib
-
 from BeautifulSoup import BeautifulSoup
-from PIL import Image
-from StringIO import StringIO
 
 
 def create_folder(path):
@@ -38,7 +35,29 @@ def download_image(url, name, dest=".", number=1):
     print "  Out: {}\n".format(filepath)
 
 
-def imgbox(url, name, dest=".", ext=".jpg", delim="", digits=3, number=1):
+def download_album(imagehost, url, name, dest=".", \
+                    ext=".jpg", delim=" - ", digits=3, number=1):
+  if len(url) < 1:
+    print "invalid URL"
+    return
+    
+  if url[-1] == "/":
+    url = url[:-1]
+    
+  name = name.lower()
+  
+  imagehost = imagehost.lower()
+  if imagehost == "imagevenue":
+    imagevenue(url, name, dest, ext, delim, digits, number)
+  elif imagehost == "imgbox":
+    imgbox(url, name, dest, ext, delim, digits, number)
+  elif imagehost == "imgur":
+    imgur(url, name, dest, ext, delim, digits, number)
+  else:
+    print "ERROR: Unsupported image host '{}'".format(imagehost)
+
+
+def imgbox(url, name, dest, ext, delim, digits, number):
   dest = create_folder(dest)
 
   html = get_html(url).find('div', {"id":"gallery-view-content"})
@@ -56,7 +75,7 @@ def imgbox(url, name, dest=".", ext=".jpg", delim="", digits=3, number=1):
       pass
 
 
-def imagevenue(url, name, dest=".", ext=".jpg", delim="", digits=3, number=1):
+def imagevenue(url, name, dest, ext, delim, digits, number):
   dest = create_folder(dest)
 
   links = [l for l in get_links(url) if re.search(r'imagevenue.com', link)]
@@ -79,7 +98,7 @@ def imagevenue(url, name, dest=".", ext=".jpg", delim="", digits=3, number=1):
       pass
 
 
-def imgur(url, name, dest=".", ext=".jpg", delim="", digits=3, number=1):
+def imgur(url, name, dest, ext, delim, digits, number):
   dest = create_folder(dest)
 
   _class = "item view album-view-image-link"
