@@ -28,28 +28,29 @@ Download from Github and import `image_dl`.
 
 ## Usage
 ### Download functions
-* __`download_image()`__
-    * required:
+* __`download_image(url, name, [dest[, number]])`__
+    * Downloads the image at `url`.
+    * Parameters:
         * `url`: album URL
-        * `name`: base filename for the downloaded image (e.g. "<name>001.jpg")
-    * optional:
-        * `dest`: output directory
-        * `number`: used for console logging
+        * `name`: output filename
+        * `dest`: (optional) output directory
+        * `number`: (optional) used for console logging
 
-* __`download_album()`__
-    * required:
+* __`download_album(imagehost, url, name, [dest[, ext[, delim[, digits[, number]]]]])`__
+    * Downloads the album at `url`.
+      * The output filenames will be: "<`name`><`delim`><`number`><`ext`>"
+    * Parameters:
         * `imagehost`: album host (e.g. imgur)
         * `url`: album URL
-        * `name`: base filename for the downloaded images (e.g. "<name>001.jpg")
-    * optional:
-        * `dest`: output directory
-        * `ext`: file extension to use for the downloaded images
-        * `delim`: delimiter to use in the downloaded images' filenames (separating `name` and `number`)
-        * `digits`: image number length
-        * `number`: starting image number
+        * `name`: base filename for the downloaded images
+        * `dest`: (optional) output directory
+        * `ext`: (optional) file extension
+        * `delim`: (optional) delimiter separating the image name and number
+        * `digits`: (optional) image number length
+        * `number`: (optional) starting image number
 
 
-### Download
+### Examples
 
 #### Image
 ```python
@@ -72,9 +73,9 @@ download_image(url, name, dest)
 #### Album
 ```python
 # required parameters
-host = "imgur" # set to appropriate host
 url = "<album_url>"
 name = "<name>"
+host = "imgur" # set to appropriate host
 
 
 # download album to current directory
