@@ -40,12 +40,9 @@ def download_image(url, name, dest=".", number=1):
 
 def download_album(imagehost, url, name, \
                     dest=".", delim=" - ", digits=3, number=1):
-  if len(url) < 1:
-    print "invalid URL"
+  if len(url) < 1 or requests.get(url).status_code != requests.codes.ok:
+    print "ERROR: invalid URL"
     return
-
-  if url[-1] == "/":
-    url = url[:-1]
 
   imagehost = imagehost.lower()
   name = name.lower()
