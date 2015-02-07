@@ -2,6 +2,7 @@
 import os
 import re
 import requests
+import sys
 import urllib
 from BeautifulSoup import BeautifulSoup
 
@@ -30,6 +31,14 @@ def get_images(url):
   html = get_html(url)
   return [tag['src'] for tag in html.findAll('img', src=True)]
 
+def url_validate(url):
+  try:
+    requests.get(url).raise_for_status()
+    print 'URL is good!'
+  except:
+    print "ERROR: URL is bad... Goodbye."
+    sys.exit(1)
+
 
 def download_image(url, name, dest=".", number=1):
     print "  {0}) In: {1}".format(number, url)
@@ -40,9 +49,7 @@ def download_image(url, name, dest=".", number=1):
 
 def download_album(imagehost, url, name, \
                     dest=".", delim=" - ", digits=3, number=1):
-  if len(url) < 1 or requests.get(url).status_code != requests.codes.ok:
-    print "ERROR: invalid URL"
-    return
+  url_validate(url)
 
   imagehost = imagehost.lower()
   name = name.lower()
