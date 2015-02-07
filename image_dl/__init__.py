@@ -22,11 +22,11 @@ def get_html(url):
     r = requests.get(url)
     return BeautifulSoup(r.content)
     
-def get_a(url):
+def get_links(url):
     html = get_html(url)
     return [tag['href'] for tag in html.findAll('a', href=True)]
 
-def get_img(url):
+def get_images(url):
   html = get_html(url)
   return [tag['src'] for tag in html.findAll('img', src=True)]
 
@@ -78,7 +78,7 @@ def imgbox(url, name, dest, delim, digits, number):
 
 def imagevenue(url, name, dest, delim, digits, number):
   print "Downloading images from [imagevenue]...\n"
-  links = [link for link in get_a(url) if "imagevenue.com" in link]
+  links = [link for link in get_links(url) if "imagevenue.com" in link]
   for link in links:
     try:
       # Source image (i.e. "Open image in a new tab")
@@ -116,7 +116,7 @@ def imgur(url, name, dest, delim, digits, number):
 def someimage(url, name, dest, delim, digits, number):
   print "Downloading images from [someimage]...\n"
   dest = create_folder(dest)
-  links = [link for link in get_img(url) if "t1.someimage.com" in link]
+  links = [link for link in get_images(url) if "t1.someimage.com" in link]
   for link in links:
     try:
       match = re.search(r'\.com/(\w*(\.\w*))$', link)
