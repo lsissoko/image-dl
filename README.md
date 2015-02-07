@@ -44,7 +44,7 @@ download_image(url, name)
 # create new output directory
 dest = create_folder("<dest>")
 
-# download album to new output directory
+# download image to new output directory
 download_image(url, name, dest)
 ```
 
@@ -59,24 +59,24 @@ host = "<host>" # (e.g. "imgur", "imgbox")
 
 
 # download album to current directory
-download_album(host, url, name)                      # "<name>001.xxx"
+download_album(host, url, name)                      # first image = "<name>001.xxx"
 
 
 # create new output directory
 dest = create_folder("<dest>")
 
 # download album to new output directory
-download_album(host, url, name, dest)                # "<dest>\<name>001.xxx"
+download_album(host, url, name, dest)                # first image = "<dest>\<name>001.xxx"
 
 # download with "_" delimiter
-download_album(host, url, name, dest, delim="_")     # "<dest>\<name>_001.xxx"
+download_album(host, url, name, dest, delim="_")     # first image = "<dest>\<name>_001.xxx"
 
 # download with image numbers of length 5
-download_album(host, url, name, dest, digits=5)      # "<dest>\<name>00001.xxx"
+download_album(host, url, name, dest, digits=5)      # first image = "<dest>\<name>00001.xxx"
 
 # download with image numbers starting at 17
-download_album(host, url, name, dest, number=17)     # "<dest>\<name>017.xxx"
+download_album(host, url, name, dest, number=17)     # first image = "<dest>\<name>017.xxx"
 
 # download with all of the changes above:
-download_album(host, url, name, dest, '_', 5, 17)    # ["<dest>\<name>_00017.xxx", "<dest>\<name>_00018.xxx", ...]
+download_album(host, url, name, dest, '_', 5, 17)    # first image = "<dest>\<name>_00017.xxx"
 ```
