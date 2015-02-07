@@ -30,6 +30,7 @@ def get_images(url):
   html = get_html(url)
   return [tag['src'] for tag in html.findAll('img', src=True)]
 
+
 def download_image(url, name, dest=".", number=1):
     print "  {0}) In: {1}".format(number, url)
     filepath = os.path.join(dest, name)
@@ -42,11 +43,14 @@ def download_album(imagehost, url, name, \
   if len(url) < 1:
     print "invalid URL"
     return
+
   if url[-1] == "/":
     url = url[:-1]
+
+  imagehost = imagehost.lower()
   name = name.lower()
   dest = create_folder(dest)
-  imagehost = imagehost.lower()
+
   if imagehost == "imagevenue":
     imagevenue(url, name, dest, delim, digits, number)
   elif imagehost == "imgbox":
@@ -61,12 +65,11 @@ def download_album(imagehost, url, name, \
 
 def imgbox(url, name, dest, delim, digits, number):
   print "Downloading images from [imgbox]...\n"
-  dest = create_folder(dest)
   div = get_html(url).find('div', {"id":"gallery-view-content"})
   links = [str(tag['src']) for tag in div.findAll('img', src=True)]
   for link in links:
     try:
-      match = re.search(r'\.com/(\w*)(\.[a-zA-Z]*)', link)
+      match = re.search(r'\.com/(\w*)(\.[a-zA-Z]*)$', link)
       image, ext = match.group(1), match.group(2)
       image_url = "http://i.imgbox.com/" + image
       new_name = set_name(name, ext, delim, number, digits)
@@ -98,14 +101,13 @@ def imagevenue(url, name, dest, delim, digits, number):
 
 def imgur(url, name, dest, delim, digits, number):
   print "Downloading images from [imgur]...\n"
-  dest = create_folder(dest)
   divs = get_html(url).findAll('div', {"class" : \
     "item view album-view-image-link"})
   links = [div.a.get('href') for div in divs]
   for link in links:
     try:
       image_url = "http://" + link[2:]
-      ext = re.search(r'\.com/[a-zA-Z]*(\.\w*)', image_url).group(1)
+      ext = re.search(r'\.com/\w*(\.[a-zA-Z]*)$', image_url).group(1)
       new_name = set_name(name, ext, delim, number, digits)
       download_image(image_url, new_name, dest, number)
       number += 1
@@ -115,7 +117,6 @@ def imgur(url, name, dest, delim, digits, number):
 
 def someimage(url, name, dest, delim, digits, number):
   print "Downloading images from [someimage]...\n"
-  dest = create_folder(dest)
   links = [link for link in get_images(url) if "t1.someimage.com" in link]
   for link in links:
     try:
