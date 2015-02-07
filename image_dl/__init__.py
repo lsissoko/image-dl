@@ -66,7 +66,7 @@ def imgbox(url, name, dest, delim, digits, number):
   links = [str(tag['src']) for tag in div.findAll('img', src=True)]
   for link in links:
     try:
-      match = re.search(r'\.com/(\w*)(\.\w*)', link)
+      match = re.search(r'\.com/(\w*)(\.[a-zA-Z]*)', link)
       image, ext = match.group(1), match.group(2)
       image_url = "http://i.imgbox.com/" + image
       new_name = set_name(name, ext, delim, number, digits)
@@ -87,7 +87,7 @@ def imagevenue(url, name, dest, delim, digits, number):
       if base_url_match and img is not None:
         base_url = base_url_match.group(0)
         img_url = img['src']
-        ext = re.search(r'\.\w*$', img_url).group(0)
+        ext = re.search(r'\.[a-zA-Z]*$', img_url).group(0)
         new_name = set_name(name, ext, delim, number, digits)
         image_url = "{0}/{1}".format(base_url, img_url)
         download_image(image_url, new_name, dest, number)
@@ -105,7 +105,7 @@ def imgur(url, name, dest, delim, digits, number):
   for link in links:
     try:
       image_url = "http://" + link[2:]
-      ext = re.search(r'\.com/\w*(\.\w*)', image_url).group(1)
+      ext = re.search(r'\.com/[a-zA-Z]*(\.\w*)', image_url).group(1)
       new_name = set_name(name, ext, delim, number, digits)
       download_image(image_url, new_name, dest, number)
       number += 1
@@ -119,7 +119,7 @@ def someimage(url, name, dest, delim, digits, number):
   links = [link for link in get_images(url) if "t1.someimage.com" in link]
   for link in links:
     try:
-      match = re.search(r'\.com/(\w*(\.\w*))$', link)
+      match = re.search(r'\.com/(\w*(\.[a-zA-Z]*))$', link)
       image, ext = match.group(1), match.group(2)
       new_name = set_name(name, ext, delim, number, digits)
       image_url = "http://i1.someimage.com/" + image
