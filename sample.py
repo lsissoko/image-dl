@@ -1,11 +1,11 @@
-import image_dl as IMGDL
+from image_dl import download_image, download_album
 import sys
 
 def test(host=""):
     url, name, dest = "", "", "images"
     if host == "":
         print "Downloading image of Homer Simpson...\n"
-        IMGDL.download_image("http://bit.ly/1DbCvWt", "homer.jpg", dest)
+        download_image("http://bit.ly/1DbCvWt", "homer.jpg", dest)
     else:
         host = host.lower()
         if host == "imgbox":
@@ -16,7 +16,7 @@ def test(host=""):
             url = "http://imgur.com/a/I5Yfd"
             name = "imgur_test"
             dest += "\imgur"
-        IMGDL.download_album(host, url, name, dest, delim="_")
+        download_album(host, url, name, dest, delim="_")
 
 if __name__ == "__main__":
     host = ""
