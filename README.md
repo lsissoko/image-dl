@@ -16,11 +16,11 @@ Python program for batch image downloading from various hosts (e.g. imagebam, im
 Download from Github and import `image_dl`.
 
 ### Dependencies
-- Requests
+- [Requests](http://docs.python-requests.org/en/latest/)
 ```sh
 >>> pip install requests
 ```
-- BeautifulSoup
+- [BeautifulSoup](http://www.crummy.com/software/BeautifulSoup/)
 ```sh
 >>> pip install beautifulsoup4
 ```
@@ -58,10 +58,8 @@ url = "<album_url>"
 name = "<name>"
 host = "<host>" # (e.g. "imgur", "imgbox")
 
-
 # download album to current directory
 download_album(host, url, name)                      # ["<name>001.xxx", ...]
-
 
 # download album to "\img" directory
 download_album(host, url, name, "img")               # ["img\<name>001.xxx", ...]
