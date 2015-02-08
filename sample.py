@@ -13,7 +13,7 @@ def test(host=""):
             name = "imgbox_test"
             dest += "\imgbox"
         elif host == "imgur":
-            url = "http://imgur.com/a/I5Yfd"
+            url = "http://imgur.com/a/oa9mI"
             name = "imgur_test"
             dest += "\imgur"
         download_album(host, url, name, dest, delim="_")

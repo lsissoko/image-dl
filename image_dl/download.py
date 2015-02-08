@@ -88,7 +88,7 @@ def imgur(url, name, dest, delim, digits, number):
     divs = get_elements(url, "div.item.view.album-view-image-link")
     links = [div.a.get('href') for div in divs]
     
-    for link in links[:10]:
+    for link in links:
         try:
             # image URL and filetype
             image_url = "http://" + link[2:]

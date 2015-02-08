@@ -60,21 +60,21 @@ host = "<host>" # (e.g. "imgur", "imgbox")
 
 
 # download album to current directory
-download_album(host, url, name)                      # first image = "<name>001.xxx"
+download_album(host, url, name)                      # ["<name>001.xxx", ...]
 
 
 # download album to "\img" directory
-download_album(host, url, name, "img")               # first image = "img\<name>001.xxx"
+download_album(host, url, name, "img")               # ["img\<name>001.xxx", ...]
 
 # download with "_" delimiter
-download_album(host, url, name, delim="_")           # first image = "<name>_001.xxx"
+download_album(host, url, name, delim="_")           # ["<name>_001.xxx", ...]
 
 # download with image numbers of length 5
-download_album(host, url, name, digits=5)            # first image = "<name>00001.xxx"
+download_album(host, url, name, digits=5)            # ["<name>00001.xxx", ...]
 
 # download with image numbers starting at 17
-download_album(host, url, name, number=17)           # first image = "<name>017.xxx"
+download_album(host, url, name, number=17)           # ["<name>017.xxx", ...]
 
 # download with all of the changes above:
-download_album(host, url, name, "img", '_', 5, 17)   # first image = "images\<name>_00017.xxx"
+download_album(host, url, name, "img", '_', 5, 17)   # ["img\<name>_00017.xxx", ...]
 ```
