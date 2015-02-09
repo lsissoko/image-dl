@@ -53,7 +53,9 @@ def imagebam(url, name, dest, delim, digits, number):
     # remove any duplicate links
     links = list(unique_everseen(links))
 
-    for link in links[:10]:
+    regex = re.compile(r'\.[a-zA-Z]*$', re.IGNORECASE)
+
+    for link in links:
         try:
             # source image (i.e. "Open image in a new tab")
             src = [el['src'] \
@@ -64,7 +66,7 @@ def imagebam(url, name, dest, delim, digits, number):
                 image_url = src[0]
                 
                 # filetype
-                ext = re.search(r'\.[a-zA-Z]*$', image_url)
+                ext = regex.search(image_url)
                 if ext is None:
                     ext = ".jpg"
                 else:
@@ -85,10 +87,12 @@ def imgbox(url, name, dest, delim, digits, number):
 
     links = [el['src'] for el in get_elements(url, '#gallery-view-content img')]
 
+    regex = re.compile(r'\.com/(\w*)(\.[a-zA-Z]*)$', re.IGNORECASE)
+
     for link in links:
         try:
             # image name and filetype
-            match = re.search(r'\.com/(\w*)(\.[a-zA-Z]*)$', link)
+            match = regex.search(link)
             image, ext = match.group(1), match.group(2)
 
             # image URL and output filename
@@ -107,16 +111,19 @@ def imagevenue(url, name, dest, delim, digits, number):
     
     links = [link for link in get_page_links(url) if "imagevenue.com" in link]
     
+    regex_base_url = re.compile(r'.*imagevenue.com', re.IGNORECASE)
+    regex_ext = re.compile(r'\.[a-zA-Z]*$', re.IGNORECASE)
+    
     for link in links:
         try:
             # source image (i.e. "Open image in a new tab")
             img = get_elements(link, "img#thepic")
 
-            base_url_match = re.search(r'.*imagevenue.com', link)
+            base_url_match = regex_base_url.search(link)
             if base_url_match and img is not []:
                 # image name and filetype
                 img_url = img[0]['src']
-                ext = re.search(r'\.[a-zA-Z]*$', img_url).group(0)
+                ext = regex_ext.search(img_url).group(0)
 
                 # image URL and output filename
                 new_name = set_name(name, ext, delim, number, digits)
@@ -134,12 +141,14 @@ def imgur(url, name, dest, delim, digits, number):
 
     divs = get_elements(url, "div.item.view.album-view-image-link")
     links = [div.a.get('href') for div in divs]
+
+    regex = re.compile(r'\.com/\w*(\.[a-zA-Z]*)$', re.IGNORECASE)
     
     for link in links:
         try:
             # image URL and filetype
             image_url = "http://" + link[2:]
-            ext = re.search(r'\.com/\w*(\.[a-zA-Z]*)$', image_url).group(1)
+            ext = regex.search(image_url).group(1)
 
             # output filename
             new_name = set_name(name, ext, delim, number, digits)
@@ -156,10 +165,12 @@ def someimage(url, name, dest, delim, digits, number):
 
     links = [l for l in get_image_links(url) if "t1.someimage.com" in l]
 
+    regex = re.compile(r'\.com/(\w*(\.[a-zA-Z]*))$', re.IGNORECASE)
+    
     for link in links:
         try:
             # image name and filetype
-            match = re.search(r'\.com/(\w*(\.[a-zA-Z]*))$', link)
+            match = regex.search(link)
             image = match.group(1)
             ext = match.group(2)
 

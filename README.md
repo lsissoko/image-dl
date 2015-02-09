@@ -3,13 +3,15 @@ Python program for batch image downloading from various hosts (e.g. imagebam, im
 
 ### To Do
 * [x] Single image downloading from a given URL
-* [ ] Album/Gallery downloads
+* [ ] Album/Gallery downloading
     * [x] imagebam
     * [x] imagevenue
     * [x] imgbox
     * [x] imgur
     * [x] someimage
     * [ ] upix
+* Add real error handling
+* Add concurrency for parallel downloading
 
 
 ## Installation
@@ -76,3 +78,9 @@ download_album(host, url, name, number=17)           # ["<name>017.xxx", ...]
 # download with all of the changes above:
 download_album(host, url, name, "img", '_', 5, 17)   # ["img\<name>_00017.xxx", ...]
 ```
+
+## License
+
+MIT License.
+
+See [LICENSE.txt](https://github.com/primeape91/image-dl/blob/master/LICENSE.txt) for more details.
