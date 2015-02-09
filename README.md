@@ -4,7 +4,7 @@ Python program for batch image downloading from various hosts (e.g. imagebam, im
 ### To Do
 * [x] Single image downloading from a given URL
 * [ ] Album/Gallery downloads
-    * [ ] imagebam
+    * [x] imagebam
     * [x] imagevenue
     * [x] imgbox
     * [x] imgur

@@ -21,7 +21,9 @@ def download_album(host, url, name, dest=".", delim=" - ", digits=3, number=1):
     name = name.lower()
     dest = create_folder(dest)
 
-    if host == "imagevenue":
+    if host == "imagebam":
+        imagebam(url, name, dest, delim, digits, number)
+    elif host == "imagevenue":
         imagevenue(url, name, dest, delim, digits, number)
     elif host == "imgbox":
         imgbox(url, name, dest, delim, digits, number)
@@ -31,6 +33,51 @@ def download_album(host, url, name, dest=".", delim=" - ", digits=3, number=1):
         someimage(url, name, dest, delim, digits, number)
     else:
         print "ERROR: Unsupported image host '{}'".format(host)
+
+
+from bs4 import BeautifulSoup
+def imagebam(url, name, dest, delim, digits, number):
+    print "Downloading images from [imagebam]...\n"
+
+    # gallery page numbers (ascending)
+    page_count = [int(el.contents[0]) \
+        for el in get_elements(url, "a.pagination_link")]
+    
+    if page_count:
+        # multi-page gallery
+        links = get_imagebam_htmlcode_links(url, page_count[-1])
+    else:
+        # single-page gallery
+        links = [l for l in get_page_links(url) if "imagebam.com" in l]
+    
+    # remove any duplicate links
+    links = list(unique_everseen(links))
+
+    for link in links[:10]:
+        try:
+            # source image (i.e. "Open image in a new tab")
+            src = [el['src'] \
+                    for el in get_elements(link, 'img') \
+                    if 'id' in el.attrs]
+            if len(src) > 0:
+                # image URL
+                image_url = src[0]
+                
+                # filetype
+                ext = re.search(r'\.[a-zA-Z]*$', image_url)
+                if ext is None:
+                    ext = ".jpg"
+                else:
+                    ext = ext.group(0)
+                    
+                # output filename
+                new_name = set_name(name, ext, delim, number, digits)
+
+                # download
+                download_image(image_url, new_name, dest, number)
+                number += 1
+        except:
+            pass
 
 
 def imgbox(url, name, dest, delim, digits, number):
@@ -62,7 +109,7 @@ def imagevenue(url, name, dest, delim, digits, number):
     
     for link in links:
         try:
-            # Source image (i.e. "Open image in a new tab")
+            # source image (i.e. "Open image in a new tab")
             img = get_elements(link, "img#thepic")
 
             base_url_match = re.search(r'.*imagevenue.com', link)
