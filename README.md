@@ -15,7 +15,7 @@ Python program for batch image downloading from various hosts (e.g. imagebam, im
 
 
 ## Installation
-Download from Github and import `image_dl`.
+Download from Github.
 
 ### Dependencies
 - [Requests](http://docs.python-requests.org/en/latest/)
@@ -26,6 +26,7 @@ Download from Github and import `image_dl`.
 ```sh
 >>> pip install beautifulsoup4
 ```
+Tested on Python 2.7
 
 
 ## Usage
@@ -35,17 +36,17 @@ Download from Github and import `image_dl`.
 #### Image
 ```python
 # import
-from image_dl import download_image
+from image_dl import download_file
 
 # required parameters
 url = "<img_url>"
 name = "<name>"
 
 # download image to current directory
-download_image(url, name)
+download_file(url, name)
 
 # download image to "\img" directory
-download_image(url, name, "img")
+download_file(url, name, "img")
 ```
 
 #### Album
@@ -81,6 +82,6 @@ download_album(host, url, name, "img", '_', 5, 17)   # ["img\<name>_00017.xxx", 
 
 ## License
 
-MIT License.
+MIT.
 
 See [LICENSE.txt](https://github.com/primeape91/image-dl/blob/master/LICENSE.txt) for more details.

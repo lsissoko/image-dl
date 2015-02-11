@@ -1,11 +1,11 @@
-from image_dl import download_image, download_album
+from image_dl import download_file, download_album
 import sys
 
 def test(host=""):
     url, name, dest = "", "", "images"
     if host == "":
         print "Downloading image of Homer Simpson...\n"
-        download_image("http://bit.ly/1DbCvWt", "homer.jpg", dest)
+        download_file("http://bit.ly/1DbCvWt", "homer.jpg", dest)
     else:
         host = host.lower()
         if host == "imgbox":

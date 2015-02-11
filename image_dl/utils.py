@@ -59,6 +59,8 @@ def get_image_links(url):
 
 def get_imagebam_htmlcode_links(url, page_count):
     """
+    ImageBam download helper function.
+
     Returns the links listed at the bottom of each page in the 'HTML-Code' box.
     """
     if url[-1] == "/": url = url[:-1]

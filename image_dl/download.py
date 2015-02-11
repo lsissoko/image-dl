@@ -6,9 +6,9 @@ import sys
 import urllib
 
 
-def download_image(url, name, dest=".", number=1):
+def download_file(url, name, dest=".", number=1):
     print "  {0}) In: {1}".format(number, url)
-    filepath = os.path.join(dest, name)
+    filepath = os.path.join(create_folder(dest), name)
     urllib.urlretrieve(url, filepath)
     print "  Out: {}\n".format(filepath)
 
@@ -20,6 +20,7 @@ def download_album(host, url, name, dest=".", delim=" - ", digits=3, number=1):
     host = host.lower()
     name = name.lower()
     dest = create_folder(dest)
+    print dest
 
     if host == "imagebam":
         imagebam(url, name, dest, delim, digits, number)
@@ -76,7 +77,7 @@ def imagebam(url, name, dest, delim, digits, number):
                 new_name = set_name(name, ext, delim, number, digits)
 
                 # download
-                download_image(image_url, new_name, dest, number)
+                download_file(image_url, new_name, dest, number)
                 number += 1
         except:
             pass
@@ -100,7 +101,7 @@ def imgbox(url, name, dest, delim, digits, number):
             new_name = set_name(name, ext, delim, number, digits)
 
             # download
-            download_image(image_url, new_name, dest, number)
+            download_file(image_url, new_name, dest, number)
             number += 1
         except:
             pass
@@ -130,7 +131,7 @@ def imagevenue(url, name, dest, delim, digits, number):
                 image_url = "{0}/{1}".format(base_url_match.group(0), img_url)
 
                 # download
-                download_image(image_url, new_name, dest, number)
+                download_file(image_url, new_name, dest, number)
                 number += 1
         except:
             pass
@@ -154,7 +155,7 @@ def imgur(url, name, dest, delim, digits, number):
             new_name = set_name(name, ext, delim, number, digits)
 
             # download
-            download_image(image_url, new_name, dest, number)
+            download_file(image_url, new_name, dest, number)
             number += 1
         except:
             pass
@@ -179,7 +180,7 @@ def someimage(url, name, dest, delim, digits, number):
             image_url = "http://i1.someimage.com/" + image
 
             # download
-            download_image(image_url, new_name, dest, number)
+            download_file(image_url, new_name, dest, number)
             number += 1
         except:
             pass
