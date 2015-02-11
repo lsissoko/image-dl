@@ -1,1 +1,1 @@
-from .download import download_album, download_image
+from .download import download_album, download_file
