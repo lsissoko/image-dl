@@ -11,11 +11,11 @@ def test(host=""):
         if host == "imgbox":
             url = "http://imgbox.com/g/IKVdGGtXFK"
             name = "imgbox_test"
-            dest += "\imgbox"
+            dest = os.path.join(dest, "imgbox")
         elif host == "imgur":
             url = "http://imgur.com/a/oa9mI"
             name = "imgur_test"
-            dest += "\imgur"
+            dest = os.path.join(dest, "imgur")
         download_album(host, url, name, dest, delim="_")
 
 if __name__ == "__main__":
