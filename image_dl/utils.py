@@ -4,6 +4,7 @@ import urllib
 from bs4 import BeautifulSoup
 from itertools import ifilterfalse
 
+
 def create_folder(path):
     try:
         os.makedirs(path)
@@ -12,14 +13,16 @@ def create_folder(path):
             raise
     return path
 
+
 def set_name(name, ext, delim, number, digits):
     paddedNumber = format(number, "0%dd" % digits)
     return "{0}{1}{2}{3}".format(name, delim, paddedNumber, ext)
 
+
 def unique_everseen(iterable, key=None):
     """
     http://stackoverflow.com/a/12897501
-    
+
     "List unique elements, preserving order. Remember all elements ever seen."
     # unique_everseen('AAAABBBCCDAABBB') --> A B C D
     # unique_everseen('ABBCcAD', str.lower) --> A B C D
@@ -37,25 +40,31 @@ def unique_everseen(iterable, key=None):
                 seen_add(k)
                 yield element
 
+
 def is_valid_url(url):
     try:
         requests.get(url).raise_for_status()
         return True
     except:
         return False
-    
+
+
 def get_html(url):
     r = requests.get(url)
     return BeautifulSoup(r.content)
 
+
 def get_elements(url, css):
     return get_html(url).select(css)
-    
+
+
 def get_page_links(url):
     return [tag['href'] for tag in get_elements(url, 'a')]
 
+
 def get_image_links(url):
     return [tag['src'] for tag in get_elements(url, 'img')]
+
 
 def get_imagebam_htmlcode_links(url, page_count):
     """
@@ -63,9 +72,10 @@ def get_imagebam_htmlcode_links(url, page_count):
 
     Returns the links listed at the bottom of each page in the 'HTML-Code' box.
     """
-    if url[-1] == "/": url = url[:-1]
+    if url[-1] == "/":
+        url = url[:-1]
     links = []
-    for i in range(1, page_count+1):
+    for i in range(1, page_count + 1):
         html = get_html(url + "/" + str(i))
         textareas = [tag for tag in html.findAll('textarea')]
         html = BeautifulSoup(str(textareas[1].contents))

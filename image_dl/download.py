@@ -19,8 +19,6 @@ def download_album(host, url, name, dest=".", delim=" - ", digits=3, number=1):
 
     host = host.lower()
     name = name.lower()
-    dest = create_folder(dest)
-    print dest
 
     if host == "imagebam":
         imagebam(url, name, dest, delim, digits, number)
@@ -37,20 +35,22 @@ def download_album(host, url, name, dest=".", delim=" - ", digits=3, number=1):
 
 
 from bs4 import BeautifulSoup
+
+
 def imagebam(url, name, dest, delim, digits, number):
     print "Downloading images from [imagebam]...\n"
 
     # gallery page numbers (ascending)
-    page_count = [int(el.contents[0]) \
-        for el in get_elements(url, "a.pagination_link")]
-    
+    page_count = [int(el.contents[0])
+                  for el in get_elements(url, "a.pagination_link")]
+
     if page_count:
         # multi-page gallery
         links = get_imagebam_htmlcode_links(url, page_count[-1])
     else:
         # single-page gallery
         links = [l for l in get_page_links(url) if "imagebam.com" in l]
-    
+
     # remove any duplicate links
     links = list(unique_everseen(links))
 
@@ -59,20 +59,20 @@ def imagebam(url, name, dest, delim, digits, number):
     for link in links:
         try:
             # source image (i.e. "Open image in a new tab")
-            src = [el['src'] \
-                    for el in get_elements(link, 'img') \
-                    if 'id' in el.attrs]
+            src = [el['src']
+                   for el in get_elements(link, 'img')
+                   if 'id' in el.attrs]
             if len(src) > 0:
                 # image URL
                 image_url = src[0]
-                
+
                 # filetype
                 ext = regex.search(image_url)
                 if ext is None:
                     ext = ".jpg"
                 else:
                     ext = ext.group(0)
-                    
+
                 # output filename
                 new_name = set_name(name, ext, delim, number, digits)
 
@@ -86,7 +86,8 @@ def imagebam(url, name, dest, delim, digits, number):
 def imgbox(url, name, dest, delim, digits, number):
     print "Downloading images from [imgbox]...\n"
 
-    links = [el['src'] for el in get_elements(url, '#gallery-view-content img')]
+    links = [el['src']
+             for el in get_elements(url, '#gallery-view-content img')]
 
     regex = re.compile(r'\.com/(\w*)(\.[a-zA-Z]*)$', re.IGNORECASE)
 
@@ -109,12 +110,12 @@ def imgbox(url, name, dest, delim, digits, number):
 
 def imagevenue(url, name, dest, delim, digits, number):
     print "Downloading images from [imagevenue]...\n"
-    
+
     links = [link for link in get_page_links(url) if "imagevenue.com" in link]
-    
+
     regex_base_url = re.compile(r'.*imagevenue.com', re.IGNORECASE)
     regex_ext = re.compile(r'\.[a-zA-Z]*$', re.IGNORECASE)
-    
+
     for link in links:
         try:
             # source image (i.e. "Open image in a new tab")
@@ -140,11 +141,11 @@ def imagevenue(url, name, dest, delim, digits, number):
 def imgur(url, name, dest, delim, digits, number):
     print "Downloading images from [imgur]...\n"
 
-    divs = get_elements(url, "div.item.view.album-view-image-link")
-    links = [div.a.get('href') for div in divs]
+    links = [div.a.get('href') for div in get_elements(
+        url, "div.item.view.album-view-image-link")]
 
     regex = re.compile(r'\.com/\w*(\.[a-zA-Z]*)$', re.IGNORECASE)
-    
+
     for link in links:
         try:
             # image URL and filetype
@@ -167,7 +168,7 @@ def someimage(url, name, dest, delim, digits, number):
     links = [l for l in get_image_links(url) if "t1.someimage.com" in l]
 
     regex = re.compile(r'\.com/(\w*(\.[a-zA-Z]*))$', re.IGNORECASE)
-    
+
     for link in links:
         try:
             # image name and filetype

@@ -1,6 +1,7 @@
 from image_dl import download_file, download_album
 import sys
 
+
 def test(host=""):
     url, name, dest = "", "", "images"
     if host == "":
