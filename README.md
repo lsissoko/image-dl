@@ -82,6 +82,4 @@ download_album(host, url, name, "img", '_', 5, 17)   # ["img\<name>_00017.xxx", 
 
 ## License
 
-MIT.
-
-See [LICENSE.txt](https://github.com/primeape91/image-dl/blob/master/LICENSE.txt) for more details.
+MIT. See [LICENSE.txt](https://github.com/primeape91/image-dl/blob/master/LICENSE.txt).

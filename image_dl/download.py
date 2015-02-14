@@ -34,9 +34,6 @@ def download_album(host, url, name, dest=".", delim=" - ", digits=3, number=1):
         print "ERROR: Unsupported image host '{}'".format(host)
 
 
-from bs4 import BeautifulSoup
-
-
 def imagebam(url, name, dest, delim, digits, number):
     print "Downloading images from [imagebam]...\n"
 
