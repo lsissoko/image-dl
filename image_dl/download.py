@@ -48,8 +48,8 @@ def imagebam(url, name, dest, delim, digits, number):
         links = get_imagebam_htmlcode_links(url, page_count[-1])
     else:
         # single-page gallery
-        links = [l for l in get_page_links(url) if "imagebam.com" in l]
-
+        links = get_page_links(url, lambda x: "imagebam.com" in x)
+    
     # remove any duplicate links
     links = list(unique_everseen(links))
 
@@ -110,7 +110,7 @@ def imgbox(url, name, dest, delim, digits, number):
 def imagevenue(url, name, dest, delim, digits, number):
     print "Downloading images from [imagevenue]...\n"
 
-    links = [link for link in get_page_links(url) if "imagevenue.com" in link]
+    links = get_page_links(url, lambda x: "imagevenue.com" in x)
 
     regex_base_url = re.compile(r'.*imagevenue.com', re.IGNORECASE)
     regex_ext = re.compile(r'\.[a-zA-Z]*$', re.IGNORECASE)
@@ -164,11 +164,11 @@ def imgur(url, name, dest, delim, digits, number):
 def someimage(url, name, dest, delim, digits, number):
     print "Downloading images from [someimage]...\n"
 
-    links = [l for l in get_image_links(url) if "t1.someimage.com" in l]
+    links = get_image_links(url, lambda x: "t1.someimage.com" in x)
 
     regex = re.compile(r'\.com/(\w*(\.[a-zA-Z]*))$', re.IGNORECASE)
 
-    for link in links:
+    for link in links[:5]:
         try:
             # image name and filetype
             match = regex.search(link)

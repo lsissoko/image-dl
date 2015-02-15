@@ -58,12 +58,22 @@ def get_elements(url, css):
     return get_html(url).select(css)
 
 
-def get_page_links(url):
-    return [tag['href'] for tag in get_elements(url, 'a')]
+def get_page_links(url, cond=None):
+    if cond is None:
+        return [tag['href'] for tag in get_elements(url, 'a')
+                if tag.get('href')]
+    else:
+        return [tag['href'] for tag in get_elements(url, 'a')
+                if tag.get('href') and cond(tag['href'])]
 
 
-def get_image_links(url):
-    return [tag['src'] for tag in get_elements(url, 'img')]
+def get_image_links(url, cond=None):
+    if cond is None:
+        return [tag['src'] for tag in get_elements(url, 'img')
+                if tag.get('src')]
+    else:
+        return [tag['src'] for tag in get_elements(url, 'img')
+                if tag.get('src') and cond(tag['src'])]
 
 
 def get_imagebam_htmlcode_links(url, page_count):
