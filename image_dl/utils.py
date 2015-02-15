@@ -50,8 +50,7 @@ def is_valid_url(url):
 
 
 def get_html(url):
-    r = requests.get(url)
-    return BeautifulSoup(r.content)
+    return BeautifulSoup(requests.get(url).content)
 
 
 def get_elements(url, css):

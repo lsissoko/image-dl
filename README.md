@@ -51,7 +51,6 @@ download_file(url, name, "<dest>")
 
 #### Album
 See "To Do" section above for a list of valid `host` values.
-
 ```python
 # import
 from image_dl import download_album
@@ -65,7 +64,7 @@ host = "<host>" # (e.g. "imgur", "imgbox")
 download_album(host, url, name)                      # ["<name>001.xxx", ...]
 
 # download album to "<dest>"
-download_album(host, url, name, dest="<dest>")       # ["img\<name>001.xxx", ...]
+download_album(host, url, name, dest="<dest>")       # ["<dest>\<name>001.xxx", ...]
 
 # download with "_" delimiter
 download_album(host, url, name, delim="_")           # ["<name>_001.xxx", ...]
@@ -83,4 +82,4 @@ download_album(host, url, name, dest="<dest>", \
 
 ## License
 
-MIT. See [LICENSE.txt](https://github.com/primeape91/image-dl/blob/master/LICENSE.txt).
+MIT. See [LICENSE](https://github.com/primeape91/image-dl/blob/master/LICENSE.txt).
