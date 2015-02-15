@@ -1,17 +1,16 @@
 # image-dl
 Python program for batch image downloading from various hosts (e.g. imagebam, imgbox, etc...).
 
+### Working Image Hosts
+* imagebam
+* imagevenue
+* imgbox
+* imgur
+* someimage
+
 ### To Do
-* [x] Single image downloading from a given URL
-* [ ] Album/Gallery downloading
-    * [x] imagebam
-    * [x] imagevenue
-    * [x] imgbox
-    * [x] imgur
-    * [x] someimage
-    * [ ] upix
-* Add real error handling
-* Add concurrency for parallel downloading
+* Real error handling
+* Parallel downloads
 
 
 ## Installation
@@ -45,8 +44,8 @@ name = "<name>"
 # download image to current directory
 download_file(url, name)
 
-# download image to "\img" directory
-download_file(url, name, "img")
+# download image to "<dest>"
+download_file(url, name, "<dest>")
 ```
 
 #### Album
@@ -64,8 +63,8 @@ host = "<host>" # (e.g. "imgur", "imgbox")
 # download album to current directory
 download_album(host, url, name)                      # ["<name>001.xxx", ...]
 
-# download album to "\img" directory
-download_album(host, url, name, "img")               # ["img\<name>001.xxx", ...]
+# download album to "<dest>"
+download_album(host, url, name, dest="<dest>")       # ["img\<name>001.xxx", ...]
 
 # download with "_" delimiter
 download_album(host, url, name, delim="_")           # ["<name>_001.xxx", ...]
@@ -77,7 +76,8 @@ download_album(host, url, name, digits=5)            # ["<name>00001.xxx", ...]
 download_album(host, url, name, number=17)           # ["<name>017.xxx", ...]
 
 # download with all of the changes above:
-download_album(host, url, name, "img", '_', 5, 17)   # ["img\<name>_00017.xxx", ...]
+download_album(host, url, name, dest="img", \
+                delim='_', digits=5, number=17)      # ["<dest>\<name>_00017.xxx", ...]
 ```
 
 ## License
