@@ -1,12 +1,13 @@
 # image-dl
 Python program for batch image downloading from various hosts (e.g. imagebam, imgbox, etc...).
 
-### Working Image Hosts
+### Working Hosts
 * imagebam
 * imagevenue
 * imgbox
 * imgur
 * someimage
+* upix
 
 ### To Do
 * Real error handling
@@ -76,7 +77,7 @@ download_album(host, url, name, digits=5)            # ["<name>00001.xxx", ...]
 download_album(host, url, name, number=17)           # ["<name>017.xxx", ...]
 
 # download with all of the changes above:
-download_album(host, url, name, dest="img", \
+download_album(host, url, name, dest="<dest>", \
                 delim='_', digits=5, number=17)      # ["<dest>\<name>_00017.xxx", ...]
 ```
 
