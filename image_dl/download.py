@@ -30,6 +30,8 @@ def download_album(host, url, name, dest=".", delim=" - ", digits=3, number=1):
         imgur(url, name, dest, delim, digits, number)
     elif host == "someimage":
         someimage(url, name, dest, delim, digits, number)
+    elif host == "upix":
+        upix(url, name, dest, delim, digits, number)
     else:
         print "ERROR: Unsupported image host '{}'".format(host)
 
@@ -176,6 +178,30 @@ def someimage(url, name, dest, delim, digits, number):
             # image URL and output filename
             new_name = set_name(name, ext, delim, number, digits)
             image_url = "http://i1.someimage.com/" + image
+
+            # download
+            download_file(image_url, new_name, dest, number)
+            number += 1
+        except:
+            pass
+
+
+def upix(url, name, dest, delim, digits, number):
+    links = [str(tag['href'])
+             for tag in get_html(url).findAll('a', {"class": "thumb"})]
+
+    base_url = url
+    if str.endswith(url, "/#none"):
+        base_url = url[:-5]
+
+    regex = re.compile(r'(\.[a-zA-Z]*)$', re.IGNORECASE)
+
+    for link in links:
+        try:
+            # image URL and output filename
+            image_url = base_url + link
+            ext = regex.search(image_url).group(1)
+            new_name = set_name(name, ext, delim, number, digits)
 
             # download
             download_file(image_url, new_name, dest, number)
