@@ -5,7 +5,7 @@ Python program for batch image downloading from various hosts (e.g. imagebam, im
 * imagebam
 * imagevenue
 * imgbox
-* imgur
+* imgur (if it doesn't work, try switching the layout to "Blog" before copying the URL)
 * someimage
 * upix
 
