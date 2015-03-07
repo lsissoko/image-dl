@@ -1,7 +1,6 @@
 from utils import *
 import os
 import re
-import requests
 import sys
 import urllib
 
@@ -49,7 +48,7 @@ def imagebam(url, name, dest, delim, digits, number):
     else:
         # single-page gallery
         links = get_page_links(url, lambda x: "imagebam.com" in x)
-    
+
     # remove any duplicate links
     links = list(unique_everseen(links))
 

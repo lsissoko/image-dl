@@ -1,6 +1,5 @@
 import os
 import requests
-import urllib
 from bs4 import BeautifulSoup
 from itertools import ifilterfalse
 
