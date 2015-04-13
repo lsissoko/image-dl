@@ -1,4 +1,14 @@
-from utils import *
+from utils import (
+    create_folder,
+    set_name,
+    unique_everseen,
+    is_valid_url,
+    get_html,
+    get_elements,
+    get_page_links,
+    get_image_links,
+    get_imagebam_htmlcode_links
+)
 import os
 import re
 import sys
@@ -186,6 +196,8 @@ def someimage(url, name, dest, delim, digits, number):
 
 
 def upix(url, name, dest, delim, digits, number):
+    print "Downloading images from [upix]...\n"
+
     links = [str(tag['href'])
              for tag in get_html(url).findAll('a', {"class": "thumb"})]
 
