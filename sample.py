@@ -2,6 +2,13 @@ from image_dl import download_file, download_album
 import os
 import sys
 
+"""
+Run commands:
+    python sample.py
+    python sample.py imgbox
+    python sample.py imgur
+"""
+
 
 def test(host=""):
     url, name, dest = "", "", "images"
@@ -21,8 +28,5 @@ def test(host=""):
         download_album(host, url, name, dest, delim="_")
 
 if __name__ == "__main__":
-    host = ""
-    if len(sys.argv) > 1:
-        host = sys.argv[1]
-
+    host = sys.argv[1] if (len(sys.argv) > 1) else ""
     test(host)

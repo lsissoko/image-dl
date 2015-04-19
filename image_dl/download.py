@@ -149,6 +149,9 @@ def imagevenue(url, name, dest, delim, digits, number):
 def imgur(url, name, dest, delim, digits, number):
     print "Downloading images from [imgur]...\n"
 
+    if not str.endswith(url, "/layout/blog"):
+        url += "/layout/blog"
+
     links = [div.a.get('href') for div in get_elements(
         url, "div.item.view.album-view-image-link")]
 
