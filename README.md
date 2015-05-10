@@ -2,12 +2,14 @@
 Python program for batch image downloading from various hosts (e.g. imagebam, imgbox, etc...).
 
 ### Working Hosts
-* imagebam
-* imagevenue
-* imgbox
-* imgur
-* someimage
-* upix
+* [imagebam](http://www.imagebam.com/)
+* [imagevenue](http://imagevenue.com/)
+* [imgbox](http://imgbox.com/)
+* [imgur](http://imgur.com/)
+* [someimage](https://someimage.com/)
+* [upix](http://upix.me/)
+* [hotflick](http://www.hotflick.net/)
+* [myceleb](http://www.myceleb.net/)
 
 ### To Do
 * Real error handling
