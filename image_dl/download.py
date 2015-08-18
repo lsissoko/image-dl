@@ -45,6 +45,11 @@ def download_album(host, url, name, dest=".", delim=" - ", digits=3, number=1):
         hotflick(url, name, dest, delim, digits, number)
     elif host == "myceleb":
         myceleb(url, name, dest, delim, digits, number)
+<<<<<<< HEAD
+=======
+    elif host == "mangastream":
+        mangastream(url, name, dest, delim, digits, number)
+>>>>>>> 85a6964d5af6bf57393151940b2a5177d8250473
     else:
         print "ERROR: Unsupported image host '{}'".format(host)
 
@@ -229,6 +234,11 @@ def upix(url, name, dest, delim, digits, number):
 
 
 def hotflick(url, name, dest, delim, digits, number):
+<<<<<<< HEAD
+=======
+    print "Downloading images from [hotflick]...\n"
+
+>>>>>>> 85a6964d5af6bf57393151940b2a5177d8250473
     # get all page links if the gallery has more than one page
     div = get_html(url).find('div', {"class": "box-paging"})
     gallery_page_links = [str(tag['href'])
@@ -265,5 +275,30 @@ def hotflick(url, name, dest, delim, digits, number):
 
 
 def myceleb(url, name, dest, delim, digits, number):
+<<<<<<< HEAD
     new_url = url.replace("myceleb", "hotflick")
     hotflick(new_url, name, dest, delim, digits, number)
+=======
+    print "Downloading images from [myceleb]...\n"
+    new_url = url.replace("myceleb", "hotflick")
+    hotflick(new_url, name, dest, delim, digits, number)
+
+
+def mangastream(url, name, dest, delim, digits, number):
+    print "Downloading images from [mangastream]...\n"
+
+    links = [tag.get('href') for tag in get_html(url).findAll(
+        "ul", {"class": "dropdown-menu"})[-1].select('li > a')]
+    match = re.search(r"(.*\/)(\d*)$", links[-1])
+    base_url, num_pages = match.group(1), int(match.group(2))
+
+    for i in range(1, num_pages + 1):
+        try:
+            image_url = get_html(
+                base_url + str(i)).select("#manga-page")[0].get("src")
+            new_name = set_name("", ".jpg", "", i, digits)
+            download_file(image_url, new_name, dest, i)
+        except:
+            print "exception"
+            pass
+>>>>>>> 85a6964d5af6bf57393151940b2a5177d8250473

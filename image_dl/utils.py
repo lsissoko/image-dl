@@ -49,7 +49,7 @@ def is_valid_url(url):
 
 
 def get_html(url):
-    return BeautifulSoup(requests.get(url).content)
+    return BeautifulSoup(requests.get(url).content, "html.parser")
 
 
 def get_elements(url, css):

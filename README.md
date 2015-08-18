@@ -1,6 +1,9 @@
 # image-dl
 Python program for batch image downloading from various hosts (e.g. imagebam, imgbox, etc...).
 
+**NEW**
+Added support for manga chapters from [mangastream](http://mangastream.com/).
+
 ### Working Hosts
 * [imagebam](http://www.imagebam.com/)
 * [imagevenue](http://imagevenue.com/)
@@ -10,6 +13,7 @@ Python program for batch image downloading from various hosts (e.g. imagebam, im
 * [upix](http://upix.me/)
 * [hotflick](http://www.hotflick.net/)
 * [myceleb](http://www.myceleb.net/)
+* [mangastream](http://mangastream.com/)
 
 ### To Do
 * Real error handling
@@ -34,6 +38,8 @@ Tested on Python 2.7
 ## Usage
 
 ### Examples
+
+Take a look at `sample.py` or read below.
 
 #### Image
 ```python
