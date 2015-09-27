@@ -232,7 +232,7 @@ def upix(url, name, dest, delim, digits, number):
 
 def hotflick(url, name, dest, delim, digits, number):
     print "Downloading images from [hotflick]...\n"
-    
+
     # get all page links if the gallery has more than one page
     div = get_html(url).find('div', {"class": "box-paging"})
     gallery_page_links = [str(tag['href'])
@@ -282,11 +282,14 @@ def mangastream(url, name, dest, delim, digits, number):
     match = re.search(r"(.*\/)(\d*)$", links[-1])
     base_url, num_pages = match.group(1), int(match.group(2))
 
+    re_ext = re.compile(r".*(\.\w*)$", re.IGNORECASE)
+
     for i in range(1, num_pages + 1):
         try:
             image_url = get_html(
                 base_url + str(i)).select("#manga-page")[0].get("src")
-            new_name = set_name("", ".jpg", "", i, digits)
+            ext = re_ext.search(image_url).group(1)
+            new_name = set_name("", ext, "", i, digits)
             download_file(image_url, new_name, dest, i)
         except:
             print "exception"
