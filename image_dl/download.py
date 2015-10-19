@@ -18,7 +18,10 @@ import urllib
 def download_file(url, name, dest=".", number=1):
     print "  {0}) In: {1}".format(number, url)
     filepath = os.path.join(create_folder(dest), name)
-    urllib.urlretrieve(url, filepath)
+    try:
+        urllib.urlretrieve(url, filepath)
+    except:
+        print "  !!!! FAIL:", url
     print "  Out: {}\n".format(filepath)
 
 
