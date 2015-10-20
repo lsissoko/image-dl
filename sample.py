@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 from image_dl import download_file, download_album
 import os
 import sys
