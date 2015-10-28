@@ -32,7 +32,6 @@ Download from Github.
 ```sh
 >>> pip install beautifulsoup4
 ```
-Tested on Python 2.7
 
 
 ## Usage
