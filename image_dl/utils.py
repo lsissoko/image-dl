@@ -45,6 +45,8 @@ def is_valid_url(url):
         requests.get(url).raise_for_status()
         return True
     except:
+        print "url not valid:", url
+        print "exiting..."
         return False
 
 
