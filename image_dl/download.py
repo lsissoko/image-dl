@@ -161,15 +161,14 @@ def imgur(url, name, dest, delim, digits, number):
     if not str.endswith(url, "/layout/blog"):
         url += "/layout/blog"
 
-    links = [div.a.get('href') for div in get_elements(
-        url, "div.item.view.album-view-image-link")]
+    links = get_html(url).findAll('meta', {'property': 'og:image'})
+    links = [link['content'] for link in links[1:]]
 
     regex = re.compile(r'\.com/\w*(\.[a-zA-Z]*)$', re.IGNORECASE)
 
-    for link in links:
+    for image_url in links:
         try:
-            # image URL and filetype
-            image_url = "http://" + link[2:]
+            # filetype
             ext = regex.search(image_url).group(1)
 
             # output filename
