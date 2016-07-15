@@ -13,6 +13,7 @@ Added support for manga chapters from [mangastream](http://mangastream.com/).
 * [upix](http://upix.me/)
 * [hotflick](http://www.hotflick.net/)
 * [myceleb](http://www.myceleb.net/)
+* [sharenxs] (http://sharenxs.com/)
 * [mangastream](http://mangastream.com/)
 
 ### To Do

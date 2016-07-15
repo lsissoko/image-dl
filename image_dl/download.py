@@ -48,6 +48,8 @@ def download_album(host, url, name, dest=".", delim=" - ", digits=3, number=1):
         hotflick(url, name, dest, delim, digits, number)
     elif host == "myceleb":
         myceleb(url, name, dest, delim, digits, number)
+    elif host == "sharenxs":
+        sharenxs(url, name, dest, delim, digits, number)
     elif host == "mangastream":
         mangastream(url, name, dest, delim, digits, number)
     else:
@@ -274,6 +276,37 @@ def myceleb(url, name, dest, delim, digits, number):
     print "Downloading images from [myceleb]...\n"
     new_url = url.replace("myceleb", "hotflick")
     hotflick(new_url, name, dest, delim, digits, number)
+
+
+def sharenxs(url, name, dest, delim, digits, number):
+    print "Downloading images from [sharenxs]...\n"
+
+    base_url = 'http://sharenxs.com'
+
+    links = [tag.get('href').encode("utf-8")
+             for tag in get_elements(url, 'div.photo_shell > a')]
+
+    re_ext = re.compile(r'.*(\.[a-zA-Z]*)\?\d+', re.IGNORECASE)
+
+    for link in links:
+        try:
+            link = base_url + link + '/original'
+
+            image_url = base_url + get_html(link).find(
+                "img", {"class": "view_photo"}).get("src")
+
+            # filetype
+            ext = re_ext.search(image_url).group(1)
+
+            # output filename
+            new_name = set_name(name, ext, delim, number, digits)
+
+            # download
+            download_file(image_url, new_name, dest, number)
+            number += 1
+        except:
+            print "exception"
+            pass
 
 
 def mangastream(url, name, dest, delim, digits, number):
