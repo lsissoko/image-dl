@@ -160,11 +160,8 @@ def imagevenue(url, name, dest, delim, digits, number):
 def imgur(url, name, dest, delim, digits, number):
     print "Downloading images from [imgur]...\n"
 
-    if not str.endswith(url, "/layout/blog"):
-        url += "/layout/blog"
-
-    links = get_html(url).findAll('meta', {'property': 'og:image'})
-    links = [link['content'] for link in links[1:]]
+    links = ['https:' + el['src']
+             for el in get_elements(url, '.post-image-placeholder, .post-image img')]
 
     regex = re.compile(r'\.com/\w*(\.[a-zA-Z]*)$', re.IGNORECASE)
 
