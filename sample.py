@@ -21,23 +21,16 @@ def test(host=""):
         host = host.lower()
 
         if host == "imgbox":
+            print "Downloading \"Nature\" album from [imgbox]...\n"
             url = "http://imgbox.com/g/IKVdGGtXFK"
             name = "imgbox_test"
             dest = os.path.join(dest, "imgbox")
 
         elif host == "imgur":
+            print "Downloading \"Fox village in Japan\" album from [imgur]...\n"
             url = "http://imgur.com/a/oa9mI"
             name = "imgur_test"
             dest = os.path.join(dest, "imgur")
-
-        # NOTE:
-        # Only the most recent chapters are hosted on Mangastream so this link
-        # for One Piece #795 may no longer work. Find a chapter you want to
-        # download and update the url and name variables accordingly.
-        elif host == "mangastream":
-            url = "http://readms.com/r/one_piece/795/2882/1"
-            name = "one_piece_795"
-            dest = os.path.join(dest, name)
 
         download_album(host, url, name, dest, delim="_")
 
