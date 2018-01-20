@@ -40,18 +40,10 @@ def download_album(host, url, name, dest=".", delim=" - ", digits=3, number=1):
         imgbox(url, name, dest, delim, digits, number)
     elif host == "imgur":
         imgur(url, name, dest, delim, digits, number)
-    elif host == "someimage":
-        someimage(url, name, dest, delim, digits, number)
-    elif host == "upix":
-        upix(url, name, dest, delim, digits, number)
     elif host == "hotflick":
         hotflick(url, name, dest, delim, digits, number)
-    elif host == "myceleb":
-        myceleb(url, name, dest, delim, digits, number)
     elif host == "sharenxs":
         sharenxs(url, name, dest, delim, digits, number)
-    elif host == "mangastream":
-        mangastream(url, name, dest, delim, digits, number)
     else:
         print "ERROR: Unsupported image host '{}'".format(host)
 
@@ -105,22 +97,18 @@ def imagebam(url, name, dest, delim, digits, number):
 def imgbox(url, name, dest, delim, digits, number):
     print "Downloading images from [imgbox]...\n"
 
-    links = [el['src']
-             for el in get_elements(url, '#gallery-view-content img')]
+    links = ['https://imgbox.com/' + el['href']
+             for el in get_elements(url, '#gallery-view-content a')]
 
-    regex = re.compile(r'\.com/(\w*)(\.[a-zA-Z]*)$', re.IGNORECASE)
+    regex = re.compile(r'(\.[a-zA-Z]*)$', re.IGNORECASE)
 
     for link in links:
         try:
-            # image name and filetype
-            match = regex.search(link)
-            image, ext = match.group(1), match.group(2)
+            image_url = [el['src'] for el in get_elements(link, '#img')][0]
+            ext = regex.search(image_url).group(1)
 
-            # image URL and output filename
-            image_url = "http://i.imgbox.com/" + image
             new_name = set_name(name, ext, delim, number, digits)
 
-            # download
             download_file(image_url, new_name, dest, number)
             number += 1
         except:
@@ -180,57 +168,6 @@ def imgur(url, name, dest, delim, digits, number):
             pass
 
 
-def someimage(url, name, dest, delim, digits, number):
-    print "Downloading images from [someimage]...\n"
-
-    links = get_image_links(url, lambda x: "t1.someimage.com" in x)
-
-    regex = re.compile(r'\.com/(\w*(\.[a-zA-Z]*))$', re.IGNORECASE)
-
-    for link in links:
-        try:
-            # image name and filetype
-            match = regex.search(link)
-            image = match.group(1)
-            ext = match.group(2)
-
-            # image URL and output filename
-            new_name = set_name(name, ext, delim, number, digits)
-            image_url = "http://i1.someimage.com/" + image
-
-            # download
-            download_file(image_url, new_name, dest, number)
-            number += 1
-        except:
-            pass
-
-
-def upix(url, name, dest, delim, digits, number):
-    print "Downloading images from [upix]...\n"
-
-    links = [str(tag['href'])
-             for tag in get_html(url).findAll('a', {"class": "thumb"})]
-
-    base_url = url
-    if str.endswith(url, "/#none"):
-        base_url = url[:-5]
-
-    regex = re.compile(r'(\.[a-zA-Z]*)$', re.IGNORECASE)
-
-    for link in links:
-        try:
-            # image URL and output filename
-            image_url = base_url + link
-            ext = regex.search(image_url).group(1)
-            new_name = set_name(name, ext, delim, number, digits)
-
-            # download
-            download_file(image_url, new_name, dest, number)
-            number += 1
-        except:
-            pass
-
-
 def hotflick(url, name, dest, delim, digits, number):
     print "Downloading images from [hotflick]...\n"
 
@@ -269,12 +206,6 @@ def hotflick(url, name, dest, delim, digits, number):
             pass
 
 
-def myceleb(url, name, dest, delim, digits, number):
-    print "Downloading images from [myceleb]...\n"
-    new_url = url.replace("myceleb", "hotflick")
-    hotflick(new_url, name, dest, delim, digits, number)
-
-
 def sharenxs(url, name, dest, delim, digits, number):
     print "Downloading images from [sharenxs]...\n"
 
@@ -301,28 +232,6 @@ def sharenxs(url, name, dest, delim, digits, number):
             # download
             download_file(image_url, new_name, dest, number)
             number += 1
-        except:
-            print "exception"
-            pass
-
-
-def mangastream(url, name, dest, delim, digits, number):
-    print "Downloading images from [mangastream]...\n"
-
-    links = [tag.get('href') for tag in get_html(url).findAll(
-        "ul", {"class": "dropdown-menu"})[-1].select('li > a')]
-    match = re.search(r"(.*\/)(\d*)$", links[-1])
-    base_url, num_pages = match.group(1), int(match.group(2))
-
-    re_ext = re.compile(r".*(\.\w*)$", re.IGNORECASE)
-
-    for i in range(1, num_pages + 1):
-        try:
-            image_url = get_html(
-                base_url + str(i)).select("#manga-page")[0].get("src")
-            ext = re_ext.search(image_url).group(1)
-            new_name = set_name("", ext, "", i, digits)
-            download_file(image_url, new_name, dest, i)
         except:
             print "exception"
             pass
