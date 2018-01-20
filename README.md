@@ -20,11 +20,11 @@ Download from Github.
 ### Dependencies
 - [Requests](http://docs.python-requests.org/en/latest/)
 ```sh
->>> pip install requests
+$ pip install requests
 ```
 - [BeautifulSoup](http://www.crummy.com/software/BeautifulSoup/)
 ```sh
->>> pip install beautifulsoup4
+$ pip install beautifulsoup4
 ```
 
 
@@ -61,26 +61,27 @@ url = "<album_url>"
 name = "<name>"
 host = "<host>" # (e.g. "imgur", "imgbox")
 
+# optional parameters
+dest = "<dest>"
+delim = "_"
+digits = 5
+number = 17
+
 # download album to current directory
-download_album(host, url, name)                      # ["<name>001.xxx", ...]
+download_album(host, url, name)
 
 # download album to "<dest>"
-download_album(host, url, name, dest="<dest>")       # ["<dest>\<name>001.xxx", ...]
+download_album(host, url, name, dest=dest)
 
 # download with "_" delimiter
-download_album(host, url, name, delim="_")           # ["<name>_001.xxx", ...]
+download_album(host, url, name, delim=delim)
 
 # download with image numbers of length 5
-download_album(host, url, name, digits=5)            # ["<name>00001.xxx", ...]
+download_album(host, url, name, digits=digits)
 
 # download with image numbers starting at 17
-download_album(host, url, name, number=17)           # ["<name>017.xxx", ...]
+download_album(host, url, name, number=number)
 
 # download with all of the changes above:
-download_album(host, url, name, dest="<dest>", \
-                delim='_', digits=5, number=17)      # ["<dest>\<name>_00017.xxx", ...]
+download_album(host, url, name, dest=dest, delim=delim, digits=digits, number=number)
 ```
-
-## License
-
-MIT. See [LICENSE](https://github.com/primeape91/image-dl/blob/master/LICENSE.txt).
