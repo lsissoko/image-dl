@@ -6,7 +6,6 @@ Python program for batch image downloading from various hosts (e.g. imagebam, im
 * [imagevenue](http://imagevenue.com/)
 * [imgbox](http://imgbox.com/)
 * [imgur](http://imgur.com/)
-* [sharenxs](http://sharenxs.com/)
 
 ### To Do
 * Real error handling
