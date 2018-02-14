@@ -40,8 +40,6 @@ def download_album(host, url, name, dest=".", delim=" - ", digits=3, number=1):
         imgbox(url, name, dest, delim, digits, number)
     elif host == "imgur":
         imgur(url, name, dest, delim, digits, number)
-    elif host == "hotflick":
-        hotflick(url, name, dest, delim, digits, number)
     elif host == "sharenxs":
         sharenxs(url, name, dest, delim, digits, number)
     else:
@@ -165,44 +163,6 @@ def imgur(url, name, dest, delim, digits, number):
             download_file(image_url, new_name, dest, number)
             number += 1
         except:
-            pass
-
-
-def hotflick(url, name, dest, delim, digits, number):
-    print "Downloading images from [hotflick]...\n"
-
-    # get all page links if the gallery has more than one page
-    div = get_html(url).find('div', {"class": "box-paging"})
-    gallery_page_links = [str(tag['href'])
-                          for tag in div.findAll('a', href=True)]
-
-    # get image links
-    if gallery_page_links != []:
-        links = []
-        for page in gallery_page_links:
-            links.extend([link for link in get_page_links(
-                "http://hotflick.net/" + page) if "/v/?q=" in link])
-    else:
-        links = [link for link in get_page_links(url) if "/v/?q=" in link]
-
-    regex = re.compile(r'\.net/\w/v/\?q\=(\d+)\.(.*)(\.\w*)$', re.IGNORECASE)
-
-    for link in links:
-        try:
-            # image name and filetype
-            match = regex.search(link)
-            ext = match.group(3)
-
-            # image URL and output filename
-            new_name = set_name(name, ext, delim, number, digits)
-            image_url = "http://www.hotflick.net/u/n/{0}/{1}{2}".format(
-                match.group(1), match.group(2), ext)
-
-            # download
-            download_file(image_url, new_name, dest, number)
-            number += 1
-        except:
-            print "exception"
             pass
 
 
