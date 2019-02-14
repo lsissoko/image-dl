@@ -40,12 +40,17 @@ def download_album(host, url, name, dest=".", delim=" - ", digits=3, number=1):
         imgbox(url, name, dest, delim, digits, number)
     elif host == "imgur":
         imgur(url, name, dest, delim, digits, number)
+    elif host == "color_by_k":
+        color_by_k(url, name, dest, delim, digits, number)
     else:
         print "ERROR: Unsupported image host '{}'".format(host)
 
 
 def imagebam(url, name, dest, delim, digits, number):
     print "Downloading images from [imagebam]...\n"
+
+    import mechanize
+    from bs4 import BeautifulSoup
 
     # gallery page numbers (ascending)
     page_count = [int(el.contents[0])
@@ -61,14 +66,21 @@ def imagebam(url, name, dest, delim, digits, number):
     # remove any duplicate links
     links = list(unique_everseen(links))
 
+    # duplicate first link to deal with "Continue to your image"
+    if len(links) > 0:
+        links.insert(0, links[0])
+
     regex = re.compile(r'\.[a-zA-Z]*$', re.IGNORECASE)
+
+    browser = mechanize.Browser()
 
     for link in links:
         try:
-            # source image (i.e. "Open image in a new tab")
-            src = [el['src']
-                   for el in get_elements(link, 'img')
-                   if 'id' in el.attrs]
+            html = browser.open(link)
+            soup = BeautifulSoup(html, "html.parser")
+            image_tags = soup.findAll('img')
+            src = [el['src'] for el in image_tags if 'id' in el.attrs]
+
             if len(src) > 0:
                 # image URL
                 image_url = src[0]
@@ -148,6 +160,28 @@ def imgur(url, name, dest, delim, digits, number):
              for el in get_elements(url, '.post-image-placeholder, .post-image img')]
 
     regex = re.compile(r'\.com/\w*(\.[a-zA-Z]*)$', re.IGNORECASE)
+
+    for image_url in links:
+        try:
+            # filetype
+            ext = regex.search(image_url).group(1)
+
+            # output filename
+            new_name = set_name(name, ext, delim, number, digits)
+
+            # download
+            download_file(image_url, new_name, dest, number)
+            number += 1
+        except:
+            pass
+
+
+def color_by_k(url, name, dest, delim, digits, number):
+    print "Downloading images from [color by k]...\n"
+
+    links = [el['src'] for el in get_elements(url, 'img.size-full')]
+
+    regex = re.compile(r'(\.[a-zA-Z]{3,})$', re.IGNORECASE)
 
     for image_url in links:
         try:

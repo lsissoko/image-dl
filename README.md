@@ -24,6 +24,10 @@ $ pip install requests
 ```sh
 $ pip install beautifulsoup4
 ```
+- [mechanize](https://github.com/python-mechanize/mechanize)
+```sh
+$ pip2 install mechanize
+```
 
 
 ## Usage
