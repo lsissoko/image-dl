@@ -57,8 +57,10 @@ def imagebam(url, name, dest, delim, digits, number):
              for el in get_elements(url, "a.pagination_link")]
 
     if len(pages) > 0:
+        # multi-page gallery
         links = get_imagebam_htmlcode_links(url, pages[-1])
     else:
+        # single-page gallery
         links = get_page_links(url, lambda x: "imagebam.com" in x)
 
     # remove any duplicate links
@@ -80,20 +82,10 @@ def imagebam(url, name, dest, delim, digits, number):
             src = [el['src'] for el in image_tags if 'id' in el.attrs]
 
             if len(src) > 0:
-                # image URL
                 image_url = src[0]
-
-                # filetype
-                ext = regex.search(image_url)
-                if ext is None:
-                    ext = ".jpg"
-                else:
-                    ext = ext.group(0)
-
-                # output filename
+                match = regex.search(image_url)
+                ext = ".jpg" if match is None else match.group(0)
                 new_name = set_name(name, ext, delim, number, digits)
-
-                # download
                 download_file(image_url, new_name, dest, number)
                 number += 1
         except:
@@ -112,9 +104,7 @@ def imgbox(url, name, dest, delim, digits, number):
         try:
             image_url = [el['src'] for el in get_elements(link, '#img')][0]
             ext = regex.search(image_url).group(1)
-
             new_name = set_name(name, ext, delim, number, digits)
-
             download_file(image_url, new_name, dest, number)
             number += 1
         except:
@@ -136,15 +126,10 @@ def imagevenue(url, name, dest, delim, digits, number):
 
             base_url_match = regex_base_url.search(link)
             if base_url_match and img is not []:
-                # image name and filetype
-                img_url = img[0]['src']
-                ext = regex_ext.search(img_url).group(0)
-
-                # image URL and output filename
+                src_url = img[0]['src']
+                ext = regex_ext.search(src_url).group(0)
                 new_name = set_name(name, ext, delim, number, digits)
-                image_url = "{0}/{1}".format(base_url_match.group(0), img_url)
-
-                # download
+                image_url = "{0}/{1}".format(base_url_match.group(0), src_url)
                 download_file(image_url, new_name, dest, number)
                 number += 1
         except:
@@ -161,13 +146,8 @@ def imgur(url, name, dest, delim, digits, number):
 
     for image_url in links:
         try:
-            # filetype
             ext = regex.search(image_url).group(1)
-
-            # output filename
             new_name = set_name(name, ext, delim, number, digits)
-
-            # download
             download_file(image_url, new_name, dest, number)
             number += 1
         except:
