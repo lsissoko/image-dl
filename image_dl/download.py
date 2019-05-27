@@ -53,14 +53,12 @@ def imagebam(url, name, dest, delim, digits, number):
     from bs4 import BeautifulSoup
 
     # gallery page numbers (ascending)
-    page_count = [int(el.contents[0])
-                  for el in get_elements(url, "a.pagination_link")]
+    pages = [int(el.contents[0])
+             for el in get_elements(url, "a.pagination_link")]
 
-    if page_count:
-        # multi-page gallery
-        links = get_imagebam_htmlcode_links(url, page_count[-1])
+    if len(pages) > 0:
+        links = get_imagebam_htmlcode_links(url, pages[-1])
     else:
-        # single-page gallery
         links = get_page_links(url, lambda x: "imagebam.com" in x)
 
     # remove any duplicate links
@@ -160,28 +158,6 @@ def imgur(url, name, dest, delim, digits, number):
              for el in get_elements(url, '.post-image-placeholder, .post-image img')]
 
     regex = re.compile(r'\.com/\w*(\.[a-zA-Z]*)$', re.IGNORECASE)
-
-    for image_url in links:
-        try:
-            # filetype
-            ext = regex.search(image_url).group(1)
-
-            # output filename
-            new_name = set_name(name, ext, delim, number, digits)
-
-            # download
-            download_file(image_url, new_name, dest, number)
-            number += 1
-        except:
-            pass
-
-
-def color_by_k(url, name, dest, delim, digits, number):
-    print "Downloading images from [color by k]...\n"
-
-    links = [el['src'] for el in get_elements(url, 'img.size-full')]
-
-    regex = re.compile(r'(\.[a-zA-Z]{3,})$', re.IGNORECASE)
 
     for image_url in links:
         try:

@@ -76,7 +76,7 @@ def get_image_links(url, cond=None):
                 if tag.get('src') and cond(tag['src'])]
 
 
-def get_imagebam_htmlcode_links(url, page_count):
+def get_imagebam_htmlcode_links(url, page):
     """
     ImageBam download helper function.
 
@@ -85,7 +85,7 @@ def get_imagebam_htmlcode_links(url, page_count):
     if url[-1] == "/":
         url = url[:-1]
     links = []
-    for i in range(1, page_count + 1):
+    for i in range(1, page + 1):
         html = get_html(url + "/" + str(i))
         textareas = [tag for tag in html.findAll('textarea')]
         html = BeautifulSoup(str(textareas[1].contents))
