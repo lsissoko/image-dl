@@ -40,8 +40,6 @@ def download_album(host, url, name, dest=".", delim=" - ", digits=3, number=1):
         imgbox(url, name, dest, delim, digits, number)
     elif host == "imgur":
         imgur(url, name, dest, delim, digits, number)
-    elif host == "color_by_k":
-        color_by_k(url, name, dest, delim, digits, number)
     else:
         print "ERROR: Unsupported image host '{}'".format(host)
 
