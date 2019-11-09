@@ -50,9 +50,6 @@ def download_album(host, url, name, dest=".", delim=" - ", digits=3, number=1):
 def imagebam(url, name, dest, delim, digits, number):
     print("Downloading images from [imagebam]...\n")
 
-    import mechanize
-    from bs4 import BeautifulSoup
-
     # gallery page numbers (ascending)
     pages = [int(el.contents[0])
              for el in get_elements(url, "a.pagination_link")]
@@ -73,13 +70,13 @@ def imagebam(url, name, dest, delim, digits, number):
 
     regex = re.compile(r'\.[a-zA-Z]*$', re.IGNORECASE)
 
-    browser = mechanize.Browser()
+    from robobrowser import RoboBrowser
+    browser = RoboBrowser()
 
     for link in links:
         try:
             html = browser.open(link)
-            soup = BeautifulSoup(html, "html.parser")
-            image_tags = soup.findAll('img')
+            image_tags = browser.select('img')
             src = [el['src'] for el in image_tags if 'id' in el.attrs]
 
             if len(src) > 0:
@@ -119,6 +116,7 @@ def imgbox(url, name, dest, delim, digits, number):
              for el in get_elements(url, '#gallery-view-content a')]
 
     indexes = list(range(len(links)))
+    filenumbers = list(range(number, number + len(links)))
 
     regex = re.compile(r'(\.[a-zA-Z]*)$', re.IGNORECASE)
 
@@ -126,18 +124,14 @@ def imgbox(url, name, dest, delim, digits, number):
     import time
     start = time.time()
 
-    links = links[35:]
-
-    def download_helper(index):
+    def download_helper(index, filenumber):
         image_url = [el['src'] for el in get_elements(links[index], '#img')][0]
         ext = regex.search(image_url).group(1)
-        filename = set_name(name, ext, delim, index, digits)
-        download_file(image_url, filename, dest, index)
+        filename = set_name(name, ext, delim, filenumber, digits)
+        download_file(image_url, filename, dest, filenumber)
 
-    # for _ in map(download_helper, indexes):
-    #     pass
     with ThreadPoolExecutor(max_workers=20) as executor:
-        executor.map(download_helper, indexes)
+        executor.map(download_helper, indexes, filenumbers)
 
     end = time.time()
     msg = 'Operation took {:.3f} seconds to complete.'
