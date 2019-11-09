@@ -9,25 +9,25 @@ Python program for batch image downloading from various hosts (e.g. imagebam, im
 
 ### To Do
 * Real error handling
-* Parallel downloads
+* ~Parallel downloads~ (only imgbox is complete)
+
+        Test Results (note: single test run because lazy)
+
+        url: http://imgbox.com/g/IKVdGGtXFK
+        count: 22
+        size: 29.3 MB
+
+        duration before: 75.85 seconds
+        duration after: 20.48 seconds
 
 
 ## Installation
 Download from Github.
 
-### Dependencies
-- [Requests](http://docs.python-requests.org/en/latest/)
-```sh
-$ pip install requests
-```
-- [BeautifulSoup](http://www.crummy.com/software/BeautifulSoup/)
-```sh
-$ pip install beautifulsoup4
-```
-- [mechanize](https://github.com/python-mechanize/mechanize)
-```sh
-$ pip2 install mechanize
-```
+### Requirements
+- Python (3.3 or later)
+- [Requests](http://docs.python-requests.org/en/latest/) -- `$ pip install requests`
+- [RoboBrowser](https://github.com/jmcarp/robobrowser) -- `$ pip3 install robobrowser`
 
 
 ## Usage

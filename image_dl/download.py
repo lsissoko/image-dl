@@ -90,25 +90,6 @@ def imagebam(url, name, dest, delim, digits, number):
             pass
 
 
-# def imgbox(url, name, dest, delim, digits, number):
-#     print("Downloading images from [imgbox]...\n")
-
-#     links = ['https://imgbox.com/' + el['href']
-#              for el in get_elements(url, '#gallery-view-content a')]
-
-#     regex = re.compile(r'(\.[a-zA-Z]*)$', re.IGNORECASE)
-
-#     for link in links:
-#         try:
-#             image_url = [el['src'] for el in get_elements(link, '#img')][0]
-#             ext = regex.search(image_url).group(1)
-#             new_name = set_name(name, ext, delim, number, digits)
-#             download_file(image_url, new_name, dest, number)
-#             number += 1
-#         except:
-#            pass
-
-
 def imgbox(url, name, dest, delim, digits, number):
     print("Downloading images from [imgbox]...\n")
 
@@ -121,8 +102,6 @@ def imgbox(url, name, dest, delim, digits, number):
     regex = re.compile(r'(\.[a-zA-Z]*)$', re.IGNORECASE)
 
     from concurrent.futures import ThreadPoolExecutor
-    import time
-    start = time.time()
 
     def download_helper(index, filenumber):
         image_url = [el['src'] for el in get_elements(links[index], '#img')][0]
@@ -132,10 +111,6 @@ def imgbox(url, name, dest, delim, digits, number):
 
     with ThreadPoolExecutor(max_workers=20) as executor:
         executor.map(download_helper, indexes, filenumbers)
-
-    end = time.time()
-    msg = 'Operation took {:.3f} seconds to complete.'
-    print(msg.format(end - start))
 
 
 def imagevenue(url, name, dest, delim, digits, number):
