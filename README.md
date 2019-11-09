@@ -9,7 +9,7 @@ Python program for batch image downloading from various hosts (e.g. imagebam, im
 
 ### To Do
 * Real error handling
-* ~Parallel downloads~ (only imgbox is complete)
+* ~Parallel downloads~ (imagebam and imgbox are done)
 
         Test Results (note: single test run because lazy)
 
