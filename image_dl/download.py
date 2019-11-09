@@ -1,4 +1,4 @@
-from utils import (
+from .utils import (
     create_folder,
     set_name,
     unique_everseen,
@@ -16,13 +16,16 @@ import urllib
 
 
 def download_file(url, name, dest=".", number=1):
-    print "  {0}) In: {1}".format(number, url)
+    print("  {0}) In: {1}".format(number, url))
     filepath = os.path.join(create_folder(dest), name)
     try:
-        urllib.urlretrieve(url, filepath)
+        res = urllib.request.urlopen(url)
+        pic = res.read()
+        with open(filepath, 'wb') as f:
+            f.write(pic)
     except:
-        print "  !!!! FAIL:", url
-    print "  Out: {}\n".format(filepath)
+        print("  !!!! FAIL:", url)
+    print("  Out: {}\n".format(filepath))
 
 
 def download_album(host, url, name, dest=".", delim=" - ", digits=3, number=1):
@@ -41,11 +44,11 @@ def download_album(host, url, name, dest=".", delim=" - ", digits=3, number=1):
     elif host == "imgur":
         imgur(url, name, dest, delim, digits, number)
     else:
-        print "ERROR: Unsupported image host '{}'".format(host)
+        print("ERROR: Unsupported image host '{}'".format(host))
 
 
 def imagebam(url, name, dest, delim, digits, number):
-    print "Downloading images from [imagebam]...\n"
+    print("Downloading images from [imagebam]...\n")
 
     import mechanize
     from bs4 import BeautifulSoup
@@ -90,27 +93,59 @@ def imagebam(url, name, dest, delim, digits, number):
             pass
 
 
+# def imgbox(url, name, dest, delim, digits, number):
+#     print("Downloading images from [imgbox]...\n")
+
+#     links = ['https://imgbox.com/' + el['href']
+#              for el in get_elements(url, '#gallery-view-content a')]
+
+#     regex = re.compile(r'(\.[a-zA-Z]*)$', re.IGNORECASE)
+
+#     for link in links:
+#         try:
+#             image_url = [el['src'] for el in get_elements(link, '#img')][0]
+#             ext = regex.search(image_url).group(1)
+#             new_name = set_name(name, ext, delim, number, digits)
+#             download_file(image_url, new_name, dest, number)
+#             number += 1
+#         except:
+#            pass
+
+
 def imgbox(url, name, dest, delim, digits, number):
-    print "Downloading images from [imgbox]...\n"
+    print("Downloading images from [imgbox]...\n")
 
     links = ['https://imgbox.com/' + el['href']
              for el in get_elements(url, '#gallery-view-content a')]
 
+    indexes = list(range(len(links)))
+
     regex = re.compile(r'(\.[a-zA-Z]*)$', re.IGNORECASE)
 
-    for link in links:
-        try:
-            image_url = [el['src'] for el in get_elements(link, '#img')][0]
-            ext = regex.search(image_url).group(1)
-            new_name = set_name(name, ext, delim, number, digits)
-            download_file(image_url, new_name, dest, number)
-            number += 1
-        except:
-            pass
+    from concurrent.futures import ThreadPoolExecutor
+    import time
+    start = time.time()
+
+    links = links[35:]
+
+    def download_helper(index):
+        image_url = [el['src'] for el in get_elements(links[index], '#img')][0]
+        ext = regex.search(image_url).group(1)
+        filename = set_name(name, ext, delim, index, digits)
+        download_file(image_url, filename, dest, index)
+
+    # for _ in map(download_helper, indexes):
+    #     pass
+    with ThreadPoolExecutor(max_workers=20) as executor:
+        executor.map(download_helper, indexes)
+
+    end = time.time()
+    msg = 'Operation took {:.3f} seconds to complete.'
+    print(msg.format(end - start))
 
 
 def imagevenue(url, name, dest, delim, digits, number):
-    print "Downloading images from [imagevenue]...\n"
+    print("Downloading images from [imagevenue]...\n")
 
     links = get_page_links(url, lambda x: "imagevenue.com" in x)
 
@@ -135,7 +170,7 @@ def imagevenue(url, name, dest, delim, digits, number):
 
 
 def imgur(url, name, dest, delim, digits, number):
-    print "Downloading images from [imgur]...\n"
+    print("Downloading images from [imgur]...\n")
 
     links = ['https:' + el['src']
              for el in get_elements(url, '.post-image-placeholder, .post-image img')]

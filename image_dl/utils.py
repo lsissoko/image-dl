@@ -1,7 +1,7 @@
 import os
 import requests
 from bs4 import BeautifulSoup
-from itertools import ifilterfalse
+from itertools import filterfalse
 
 
 def create_folder(path):
@@ -29,7 +29,7 @@ def unique_everseen(iterable, key=None):
     seen = set()
     seen_add = seen.add
     if key is None:
-        for element in ifilterfalse(seen.__contains__, iterable):
+        for element in filterfalse(seen.__contains__, iterable):
             seen_add(element)
             yield element
     else:
@@ -45,8 +45,8 @@ def is_valid_url(url):
         requests.get(url).raise_for_status()
         return True
     except:
-        print "url not valid:", url
-        print "exiting..."
+        print("url not valid:", url)
+        print("exiting...")
         return False
 
 
