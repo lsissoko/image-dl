@@ -68,26 +68,31 @@ def imagebam(url, name, dest, delim, digits, number):
     if len(links) > 0:
         links.insert(0, links[0])
 
+    indexes = list(range(len(links)))
+    filenumbers = list(range(number, number + len(links)))
+
     regex = re.compile(r'\.[a-zA-Z]*$', re.IGNORECASE)
 
     from robobrowser import RoboBrowser
-    browser = RoboBrowser()
+    browser = RoboBrowser(parser="html.parser")
 
-    for link in links:
-        try:
-            html = browser.open(link)
-            image_tags = browser.select('img')
-            src = [el['src'] for el in image_tags if 'id' in el.attrs]
+    from concurrent.futures import ThreadPoolExecutor
 
-            if len(src) > 0:
-                image_url = src[0]
-                match = regex.search(image_url)
-                ext = ".jpg" if match is None else match.group(0)
-                new_name = set_name(name, ext, delim, number, digits)
-                download_file(image_url, new_name, dest, number)
-                number += 1
-        except:
-            pass
+    def download_helper(index, filenumber):
+        browser.open(links[index])
+        tags = browser.select('meta')
+        image_url = [
+            el['content']
+            for el in tags if 'property' in el.attrs and el.attrs[
+                'property'] == 'og:image'
+        ][0]
+        match = regex.search(image_url)
+        ext = ".jpg" if match is None else match.group(0)
+        filename = set_name(name, ext, delim, filenumber, digits)
+        download_file(image_url, filename, dest, filenumber)
+
+    with ThreadPoolExecutor(max_workers=20) as executor:
+        executor.map(download_helper, indexes, filenumbers)
 
 
 def imgbox(url, name, dest, delim, digits, number):
